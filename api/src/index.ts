@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import { MongoClient, Collection } from "mongodb";
+import multer from "multer";
+import { readFileSync } from "fs";
 
 dotenv.config();
 
@@ -30,6 +32,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+const upload = multer({ dest: "uploads/" });
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, world!");
@@ -73,6 +77,33 @@ app.post("/signin", async (req: Request, res: Response) => {
     res.status(400).send("Invalid credentials");
   }
 });
+
+app.post(
+  "/uploadImage",
+  upload.single("image"),
+  async (req: Request, res: Response) => {
+    const { name, pass } = req.body;
+    const imageFile = req.file;
+
+    if (!imageFile) {
+      return res.status(400).send("No image file uploaded");
+    }
+
+    try {
+      const imageData = readFileSync(imageFile.path);
+      const base64Image = imageData.toString("base64");
+
+      console.log("Name:", name);
+      console.log("Pass:", pass);
+      console.log("Image (Base64):", base64Image);
+
+      res.send("Image received and processed");
+    } catch (error) {
+      console.error("Error processing image", error);
+      res.status(500).send("Error processing image");
+    }
+  }
+);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

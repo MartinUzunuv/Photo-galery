@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../Styles/home.css";
 import Logout from "../Components/Logout";
+import AddImage from "../Components/AddImage";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const Home: React.FC = () => {
         <h5>{localStorage.getItem("name")}</h5>
         <Logout />
       </div>
+      <AddImage />
     </div>
   );
 };
