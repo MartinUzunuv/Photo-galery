@@ -125,8 +125,6 @@ app.post("/page/:pageNumber", async (req: Request, res: Response) => {
           .skip(pageNumber*6)
           .limit(6)
           .toArray();
-        // console.log(imagesArray)
-        // console.log("page number: "+pageNumber);
         res.send({ message: "OK", images: imagesArray });
       }
     } catch (error) {

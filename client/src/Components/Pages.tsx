@@ -1,19 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../Styles/pages.css"
+import "../Styles/pages.css";
 
 const Pages = () => {
   const navigate = useNavigate();
-    const [images, setImages] = useState([]);
-    const [page, setPage] = useState(0)
+  const [images, setImages] = useState([]);
+  const [page, setPage] = useState(0);
+  const [cardWidth, setCardWidth] = useState(window.innerWidth * 0.3);
+  const [imageHeight, setImageHeight] = useState(cardWidth * 0.78);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newCardWidth = window.innerWidth * 0.3;
+      setCardWidth(newCardWidth);
+      setImageHeight(newCardWidth * 0.78);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (!(localStorage.getItem("name") && localStorage.getItem("pass"))) {
       navigate("/login");
     } else {
       axios
-        .post("http://localhost:9000/page/" + page, {
+        .post(`http://localhost:9000/page/${page}`, {
           name: localStorage.getItem("name"),
           pass: localStorage.getItem("pass"),
         })
@@ -28,19 +44,26 @@ const Pages = () => {
           console.error("There was an error making the request:", error);
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-    
-    const cardWidth = window.innerWidth*0.3
-    const imageHeigth = cardWidth*0.78
+  }, [page, navigate]);
 
-    return (
+  const handlePrevPage = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  return (
+    <div>
       <div className="pages">
         {images.map((image: any, i) => (
-          <div style={{ width: cardWidth + "px" }} key={i}>
+          <div style={{ width: `${cardWidth}px` }} key={i}>
             <img
               width={cardWidth}
-              height={imageHeigth}
+              height={imageHeight}
               src={`data:image/png;base64,${image.image}`}
               alt={image._id}
             />
@@ -49,7 +72,16 @@ const Pages = () => {
           </div>
         ))}
       </div>
-    );
+      <div className="changePageButtons">
+        <button onClick={handlePrevPage} disabled={page === 0}>
+          ⏮️
+        </button>
+        <button onClick={handleNextPage} disabled={images.length < 6}>
+          ⏭️
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Pages;
