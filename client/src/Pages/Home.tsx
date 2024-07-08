@@ -4,6 +4,7 @@ import axios from "axios";
 import "../Styles/home.css";
 import Logout from "../Components/Logout";
 import AddImage from "../Components/AddImage";
+import Pages from "../Components/Pages";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ const Home: React.FC = () => {
         <Logout />
       </div>
       <AddImage />
+      <Pages />
     </div>
   );
 };

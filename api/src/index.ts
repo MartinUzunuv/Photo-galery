@@ -110,6 +110,34 @@ app.post(
   }
 );
 
+app.post("/page/:pageNumber", async (req: Request, res: Response) => {
+  const { name, pass } = req.body;
+  const pageNumber:any = req.params.pageNumber
+  if (name && pass) {
+    try {
+      const account = await accounts.findOne({ name: name });
+      if (!account) {
+        res.send({message: "Invalid"});
+      } else {
+        const imagesArray = await images
+          .find({ name: name })
+          .sort({ date: -1 })
+          .skip(pageNumber*6)
+          .limit(6)
+          .toArray();
+        // console.log(imagesArray)
+        // console.log("page number: "+pageNumber);
+        res.send({ message: "OK", images: imagesArray });
+      }
+    } catch (error) {
+      console.error("Error querying the database", error);
+      res.status(500).send("Internal server error");
+    }
+  } else {
+    res.status(400).send("Invalid credentials");
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

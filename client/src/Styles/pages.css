@@ -1,0 +1,4 @@
+.pages {
+  display: flex;
+  flex-wrap: wrap;
+}
