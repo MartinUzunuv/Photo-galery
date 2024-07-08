@@ -5,6 +5,7 @@ import "../Styles/home.css";
 import Logout from "../Components/Logout";
 import AddImage from "../Components/AddImage";
 import Pages from "../Components/Pages";
+import SinglePhoto from "../Components/SinglePhoto";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Home: React.FC = () => {
       </div>
       <AddImage />
       <Pages />
+      <SinglePhoto />
     </div>
   );
 };

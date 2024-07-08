@@ -58,6 +58,7 @@ const Pages = () => {
 
   return (
     <div>
+      <h1>All Images</h1>
       <div className="pages">
         {images.map((image: any, i) => (
           <div style={{ width: `${cardWidth}px` }} key={i}>
@@ -67,6 +68,8 @@ const Pages = () => {
               src={`data:image/png;base64,${image.image}`}
               alt={image._id}
             />
+            <p>{image.title}</p>
+            <p>{image.description}</p>
             <p>ID: {image._id}</p>
             <p>Date: {image.date}</p>
           </div>
@@ -76,6 +79,7 @@ const Pages = () => {
         <button onClick={handlePrevPage} disabled={page === 0}>
           ⏮️
         </button>
+        <>Current Page: {page + 1}</>
         <button onClick={handleNextPage} disabled={images.length < 6}>
           ⏭️
         </button>

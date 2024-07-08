@@ -4,6 +4,8 @@ import axios from "axios";
 const AddImage: React.FC = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -17,6 +19,14 @@ const AddImage: React.FC = () => {
     }
   };
 
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(e.target.value);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -27,6 +37,8 @@ const AddImage: React.FC = () => {
 
     const formData = new FormData();
     formData.append("image", imageFile);
+    formData.append("title", title);
+    formData.append("description", description);
     formData.append("name", localStorage.getItem("name") || "");
     formData.append("pass", localStorage.getItem("pass") || "");
 
@@ -52,7 +64,14 @@ const AddImage: React.FC = () => {
 
   return (
     <div>
+      <h1>Add Image</h1>
       <form onSubmit={handleSubmit}>
+        <label>Title: </label>
+        <input type="text" value={title} onChange={handleTitleChange} />
+        <br />
+        <label>Description: </label>
+        <textarea value={description} onChange={handleDescriptionChange} />
+        <br />
         <label>Upload Image: </label>
         <input type="file" accept="image/*" onChange={handleImageChange} />
         <button type="submit">Submit</button>
