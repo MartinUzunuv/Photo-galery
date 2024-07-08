@@ -3,6 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../Styles/pages.css";
 
+interface Image {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  date: string;
+}
+
 const Pages = () => {
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
@@ -60,7 +68,7 @@ const Pages = () => {
     <div>
       <h1>All Images</h1>
       <div className="pages">
-        {images.map((image: any, i) => (
+        {images.map((image: Image, i) => (
           <div style={{ width: `${cardWidth}px` }} key={i}>
             <img
               width={cardWidth}

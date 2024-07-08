@@ -76,7 +76,14 @@ const AddImage: React.FC = () => {
         <input type="file" accept="image/*" onChange={handleImageChange} />
         <button type="submit">Submit</button>
       </form>
-      {imagePreviewUrl && <img src={imagePreviewUrl} alt="Preview" />}
+      {imagePreviewUrl && (
+        <img
+          width={window.innerWidth * 0.5}
+          height={window.innerWidth * 0.5 * 0.78}
+          src={imagePreviewUrl}
+          alt="Preview"
+        />
+      )}
     </div>
   );
 };

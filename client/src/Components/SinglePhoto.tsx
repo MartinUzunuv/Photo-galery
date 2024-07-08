@@ -44,8 +44,8 @@ const SinglePhoto: React.FC = () => {
   };
 
   return (
-      <div>
-          <h1>Find image by id</h1>
+    <div>
+      <h1>Find image by id</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="imageId">Enter Image ID:</label>
         <input
@@ -61,7 +61,12 @@ const SinglePhoto: React.FC = () => {
 
       {image && (
         <div>
-          <img src={`data:image/png;base64,${image.image}`} alt={image._id} />
+          <img
+            width={window.innerWidth * 0.5}
+            height={window.innerWidth * 0.5 * 0.78}
+            src={`data:image/png;base64,${image.image}`}
+            alt={image._id}
+          />
           <div>
             <h2>{image.title}</h2>
             <p>{image.description}</p>
