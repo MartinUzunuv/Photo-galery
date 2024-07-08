@@ -6,6 +6,7 @@ import Logout from "../Components/Logout";
 import AddImage from "../Components/AddImage";
 import Pages from "../Components/Pages";
 import SinglePhoto from "../Components/SinglePhoto";
+import DeletePhoto from "../Components/DeletePhoto";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ const Home: React.FC = () => {
       <AddImage />
       <Pages />
       <SinglePhoto />
+      <DeletePhoto />
     </div>
   );
 };
