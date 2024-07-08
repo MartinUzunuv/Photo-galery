@@ -11,6 +11,7 @@ dotenv.config();
 const url = process.env.MONGODBURL || "";
 const port = process.env.PORT || 9000;
 let accounts: Collection;
+let images: Collection;
 
 async function connectToDatabase() {
   try {
@@ -18,6 +19,7 @@ async function connectToDatabase() {
     await client.connect();
     const database = client.db("photo-galery-1");
     accounts = database.collection("accounts");
+    images = database.collection("images");
     console.log("Connected to the database");
   } catch (error) {
     console.error("Failed to connect to the database", error);
@@ -90,14 +92,17 @@ app.post(
     }
 
     try {
-      const imageData = readFileSync(imageFile.path);
-      const base64Image = imageData.toString("base64");
+      const account = await accounts.findOne({ name: name, pass: pass });
+      if (!account) {
+        res.send("Invalid");
+      } else {
+        const imageData = readFileSync(imageFile.path);
+        const base64Image = imageData.toString("base64");
 
-      console.log("Name:", name);
-      console.log("Pass:", pass);
-      console.log("Image (Base64):", base64Image);
+        await images.insertOne({ name: name, image: base64Image, date: new Date() });
 
-      res.send("Image received and processed");
+        res.send("Image received and processed");
+      }
     } catch (error) {
       console.error("Error processing image", error);
       res.status(500).send("Error processing image");

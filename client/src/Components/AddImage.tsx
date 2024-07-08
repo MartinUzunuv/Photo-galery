@@ -40,7 +40,11 @@ const AddImage: React.FC = () => {
           },
         }
       );
-      console.log("Response:", response.data);
+      if (response.data === "Image received and processed") {
+        window.location.reload();
+      } else {
+        alert("something went wrong");
+      }
     } catch (error) {
       console.error("Error uploading data:", error);
     }
