@@ -69,5 +69,3 @@ After installing the dependencies and setting up the environment variables, you 
 - The Express server will run on `http://localhost:9000` as configured in the `.env` file.
 
 If you encounter any issues or have any questions, feel free to open an issue or reach out for help.
-
-Happy coding!
