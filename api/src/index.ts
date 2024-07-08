@@ -194,6 +194,34 @@ app.post("/deleteImage/:id", async (req: Request, res: Response) => {
   }
 });
 
+app.post("/updateImage/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { name, pass, title, description } = req.body;
+
+  if (name && pass) {
+    try {
+      const account = await accounts.findOne({ name: name, pass: pass });
+      if (!account) {
+        res.send({ message: "Invalid" });
+      } else {
+        const result = await images.updateOne(
+          { _id: new ObjectId(id) },
+          { $set: { title, description } }
+        );
+        if (result.modifiedCount === 1) {
+          res.send({ message: "OK" });
+        } else {
+          res.status(404).send({ message: "Image not found" });
+        }
+      }
+    } catch (error) {
+      console.error("Error querying the database", error);
+      res.status(500).send("Internal server error");
+    }
+  } else {
+    res.status(400).send("Invalid credentials");
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
