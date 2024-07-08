@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../Styles/home.css";
+import Logout from "../Components/Logout";
 
 const Home: React.FC = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!(localStorage.getItem("name") && localStorage.getItem("pass"))) {
@@ -28,7 +30,14 @@ const navigate = useNavigate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div>Home</div>;
+  return (
+    <div>
+      <div className="accountSection">
+        <h5>{localStorage.getItem("name")}</h5>
+        <Logout />
+      </div>
+    </div>
+  );
 };
 
 export default Home;

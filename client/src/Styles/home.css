@@ -1,0 +1,11 @@
+.accountSection {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    flex-wrap: nowrap;
+    height: 24px;
+}
+
+h5 {
+    margin: 0px;
+}
