@@ -35,6 +35,45 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello, world!");
 });
 
+app.post("/login", async (req: Request, res: Response) => {
+  const { name, pass } = req.body;
+  if (name && pass) {
+    try {
+      const account = await accounts.findOne({ name: name, pass: pass });
+      if (!account) {
+        res.send("Invalid");
+      } else {
+        res.send("OK");
+      }
+    } catch (error) {
+      console.error("Error querying the database", error);
+      res.status(500).send("Internal server error");
+    }
+  } else {
+    res.status(400).send("Invalid credentials");
+  }
+});
+
+app.post("/signin", async (req: Request, res: Response) => {
+  const { name, pass } = req.body;
+  if (name && pass) {
+    try {
+      const account = await accounts.findOne({ name: name });
+      if (!account) {
+        await accounts.insertOne({ name: name, pass: pass });
+        res.send("OK");
+      } else {
+        res.send("Chosse different name");
+      }
+    } catch (error) {
+      console.error("Error querying the database", error);
+      res.status(500).send("Internal server error");
+    }
+  } else {
+    res.status(400).send("Invalid credentials");
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
